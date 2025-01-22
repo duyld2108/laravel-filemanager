@@ -737,6 +737,11 @@ function use(items) {
     window[callback](getSelectedItems());
   } else if (callback && parent[callback]) {
     parent[callback](getSelectedItems());
+  } else if (window !== window.parent) {
+    window.parent.postMessage({
+      type: "lfm:select",
+      data: getSelectedItems(),
+    },"*");
   } else if (window.opener) { // standalone button or other situations
     window.opener.SetUrl(getSelectedItems());
   } else {
